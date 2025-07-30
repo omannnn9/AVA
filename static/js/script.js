@@ -1,66 +1,70 @@
-const chatWindow = document.getElementById('chat-window');
-const chatForm = document.getElementById('chat-form');
-const userInput = document.getElementById('user-input');
-const languageSelect = document.getElementById('language-select');
+let currentLanguage = 'en';
 
-function addMessage(text, sender) {
-  const msgDiv = document.createElement('div');
-  msgDiv.classList.add('message', sender);
-  msgDiv.textContent = text;
-  chatWindow.appendChild(msgDiv);
-  chatWindow.scrollTop = chatWindow.scrollHeight;
-}
-
-// Welcome message
-function greetUser() {
-  const lang = languageSelect.value;
-  if (lang === 'fr') {
-    addMessage("Bonjour! Je suis AVA, votre guide local à Maurice. Pose-moi une question!", 'ava');
-  } else {
-    addMessage("Hello! I'm AVA, your local Mauritius guide. Ask me anything!", 'ava');
-  }
-}
-
-greetUser();
-
-chatForm.addEventListener('submit', async (e) => {
-  e.preventDefault();
-
-  const message = userInput.value.trim();
+function sendMessage() {
+  const input = document.getElementById("user-input");
+  const message = input.value.trim();
   if (!message) return;
 
-  const lang = languageSelect.value;
+  addUserMessage(message);
+  input.value = "";
 
-  // Add user message to chat
-  addMessage(message, 'user');
-  userInput.value = '';
+  // Show typing
+  document.getElementById("typing-indicator").style.display = "block";
 
-  // Show AVA typing...
-  addMessage('...', 'ava');
+  fetch("/chat", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ message, language: currentLanguage })
+  })
+  .then(response => response.json())
+  .then(data => {
+    document.getElementById("typing-indicator").style.display = "none";
+    addAvaMessage(data.reply);
+  });
+}
 
-  try {
-    const response = await fetch('/chat', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ message: message, language: lang }),
-    });
+function addUserMessage(message) {
+  const chatBox = document.getElementById("chat-box");
 
-    const data = await response.json();
+  const messageRow = document.createElement("div");
+  messageRow.className = "message-row user";
 
-    // Remove the typing indicator
-    const typingMsg = chatWindow.querySelector('.message.ava:last-child');
-    if (typingMsg && typingMsg.textContent === '...') {
-      typingMsg.remove();
-    }
+  const bubble = document.createElement("div");
+  bubble.className = "message-bubble user-message";
+  bubble.textContent = message;
 
-    // Show AVA reply
-    addMessage(data.reply, 'ava');
-  } catch (err) {
-    console.error('Error:', err);
-    const typingMsg = chatWindow.querySelector('.message.ava:last-child');
-    if (typingMsg && typingMsg.textContent === '...') {
-      typingMsg.remove();
-    }
-    addMessage(lang === 'fr' ? "Désolé, une erreur s'est produite." : "Sorry, an error occurred.", 'ava');
-  }
-});
+  messageRow.appendChild(bubble);
+  chatBox.appendChild(messageRow);
+
+  scrollToBottom();
+}
+
+function addAvaMessage(message) {
+  const chatBox = document.getElementById("chat-box");
+
+  const messageRow = document.createElement("div");
+  messageRow.className = "message-row ava";
+
+  const avatar = document.createElement("img");
+  avatar.className = "message-avatar";
+  avatar.src = "/static/ava.png";
+
+  const bubble = document.createElement("div");
+  bubble.className = "message-bubble ava-message";
+  bubble.textContent = message;
+
+  messageRow.appendChild(avatar);
+  messageRow.appendChild(bubble);
+  chatBox.appendChild(messageRow);
+
+  scrollToBottom();
+}
+
+function scrollToBottom() {
+  const chatBox = document.getElementById("chat-box");
+  chatBox.scrollTop = chatBox.scrollHeight;
+}
+
+function setLanguage(lang) {
+  currentLanguage = lang;
+}
