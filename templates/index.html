@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>AVA - Your Local AI Mauritius Guide</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
+</head>
+<body>
+  <div class="container">
+    <header>
+      <img src="{{ url_for('static', filename='assets/ava.png') }}" alt="AVA" class="avatar" />
+      <h1>AVA - Your Local AI Mauritius Guide</h1>
+      <select id="language-select" aria-label="Select Language">
+        <option value="en" selected>English</option>
+        <option value="fr">Français</option>
+      </select>
+    </header>
+
+    <main id="chat-window">
+      <!-- Chat messages will appear here -->
+    </main>
+
+    <form id="chat-form">
+      <input
+        type="text"
+        id="user-input"
+        placeholder="Type your question here..."
+        autocomplete="off"
+        required
+      />
+      <button type="submit">Send</button>
+    </form>
+  </div>
+
+  <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>
