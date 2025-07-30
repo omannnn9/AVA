@@ -1,38 +1,38 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>AVA – Your AI Mauritian Guide</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-  <div class="chat-container">
+  <div class="chat-wrapper">
     <div class="chat-header">
-      <img src="{{ url_for('static', filename='ava.png') }}" alt="AVA" class="avatar-header">
+      <img src="{{ url_for('static', filename='ava.png') }}" alt="AVA" class="avatar-header" />
       <h1>AVA – Your AI Mauritian Guide</h1>
     </div>
 
     <div id="chat-box" class="chat-box">
+      <!-- Messages will be appended here -->
+    </div>
+
+    <div id="typing-indicator" class="typing-indicator hidden">
       <div class="message-row ava">
-        <img src="{{ url_for('static', filename='ava.png') }}" class="message-avatar">
-        <div class="message-bubble ava-message">Hello! I'm AVA, your local Mauritius guide. Ask me anything!</div>
+        <img src="{{ url_for('static', filename='ava.png') }}" class="message-avatar" />
+        <div class="message-bubble typing">
+          <span></span><span></span><span></span>
+        </div>
       </div>
     </div>
 
-    <div id="typing-indicator" class="typing-indicator" style="display: none;">
-      <div class="message-row ava">
-        <img src="{{ url_for('static', filename='ava.png') }}" class="message-avatar">
-        <div class="message-bubble ava-message">AVA is typing...</div>
-      </div>
-    </div>
-
-    <div class="chat-input">
-      <input type="text" id="user-input" placeholder="Type your question here...">
+    <div class="chat-input-area">
+      <input type="text" id="user-input" placeholder="Type your question..." />
       <button onclick="sendMessage()">Send</button>
     </div>
 
-    <div class="language-switcher">
+    <div class="language-buttons">
       <button onclick="setLanguage('en')">🇬🇧 English</button>
       <button onclick="setLanguage('fr')">🇫🇷 Français</button>
     </div>
