@@ -1,48 +1,52 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AVA - Your Mauritius AI Guide</title>
-  <link rel="stylesheet" href="/static/style.css">
-  <script defer src="/static/script.js"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AVA – Your Local AI Mauritius Guide</title>
+  <link rel="stylesheet" href="/static/style.css" />
+  <link rel="icon" href="/static/ava.png" type="image/png" />
 </head>
-
 <body>
   <div class="chat-container">
     <header class="chat-header">
-      <img src="/static/ava_profile.png" alt="AVA" class="ava-pic">
-      <h1>AVA <span class="subtitle">Your Local Mauritius AI Guide 🇲🇺</span></h1>
-      <button id="help-btn">❓</button>
+      <img src="/static/ava.png" alt="AVA" class="ava-pic" />
+      <div>
+        <h1>AVA</h1>
+        <p>Your Local AI Mauritius Guide 🇲🇺</p>
+      </div>
+      <button class="help-button" onclick="toggleHelp()">❓</button>
     </header>
 
-    <main id="chat-box"></main>
+    <main id="chat-box" class="chat-box"></main>
+
+    <div class="input-container">
+      <input id="user-input" type="text" placeholder="Type a message..." onkeydown="handleKeyPress(event)" />
+      <button onclick="sendMessage()">Send</button>
+    </div>
 
     <div class="language-selector">
-      <span id="en" class="lang-flag">🇬🇧</span>
-      <span id="fr" class="lang-flag">🇫🇷</span>
+      <span id="en" onclick="setLanguage('en')" class="lang-flag">🇬🇧</span>
+      <span id="fr" onclick="setLanguage('fr')" class="lang-flag">🇫🇷</span>
     </div>
-
-    <div class="input-area">
-      <input type="text" id="user-input" placeholder="Type a message...">
-      <button id="send-btn">➤</button>
-    </div>
-
-    <div id="typing-indicator" class="hidden">AVA is typing<span class="dots"></span></div>
   </div>
 
-  <div id="ask-screen" class="hidden">
-    <h2>What You Can Ask AVA</h2>
-    <div class="bubble-container">
-      <div class="category">🏖️ Tourist Spots</div>
-      <div class="category">🍲 Mauritian Food</div>
-      <div class="category">🚎 Transport</div>
-      <div class="category">🏨 Hotels</div>
-      <div class="category">🌐 Travel Tips</div>
+  <!-- Help Screen -->
+  <div id="help-screen" class="help-screen hidden">
+    <div class="help-content">
+      <h2>What You Can Ask AVA</h2>
+      <ul>
+        <li>🏖️ Best beaches in Mauritius</li>
+        <li>🍲 Traditional Mauritian food</li>
+        <li>🚎 Metro and bus schedules</li>
+        <li>🏨 Hotel recommendations</li>
+        <li>🎟️ Festivals and cultural events</li>
+        <li>🌐 Internet access for tourists</li>
+      </ul>
+      <button onclick="toggleHelp()">Close</button>
     </div>
-    <button id="close-help">Close</button>
   </div>
+
+  <script src="/static/script.js"></script>
 </body>
-
 </html>
