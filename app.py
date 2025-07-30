@@ -3,7 +3,6 @@ import json
 
 app = Flask(__name__)
 
-# Load the bilingual knowledge base
 with open('ava_knowledge_base.json', 'r', encoding='utf-8') as f:
     knowledge_base = json.load(f)
 
@@ -16,7 +15,6 @@ def chat():
     user_message = request.json.get('message', '').lower()
     language = request.json.get('language', 'en')
 
-    # Search for a matching response
     for item in knowledge_base:
         if user_message in item['question'].lower():
             return jsonify(reply=item['answer'][language])
