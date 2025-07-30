@@ -14,20 +14,14 @@ def home():
 @app.route('/chat', methods=['POST'])
 def chat():
     user_message = request.json.get('message', '').lower()
-    language = request.json.get('language', 'en')  # 'en' or 'fr'
+    language = request.json.get('language', 'en')
 
+    # Search for a matching response
     for item in knowledge_base:
-        question = item.get(f'question_{language}', '').lower()
-        if question in user_message or user_message in question:
-            response = item.get(f'answer_{language}', 'Sorry, I couldn’t find anything.')
-            return jsonify({'reply': response})
+        if user_message in item['question'].lower():
+            return jsonify(reply=item['answer'][language])
 
-    # Default fallback if no match found
-    fallback = {
-        'en': "Sorry, I couldn’t find anything about that. Try asking about beaches, travel plans, or transport tips!",
-        'fr': "Désolé, je n'ai pas trouvé d'information. Essaie de poser une question sur les plages, les plans de voyage ou les transports !"
-    }
-    return jsonify({'reply': fallback.get(language)})
+    return jsonify(reply="Sorry, I didn't get that. Try asking about places, food, or things to do in Mauritius!")
 
 if __name__ == '__main__':
     app.run(debug=True)
