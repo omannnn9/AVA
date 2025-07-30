@@ -14,14 +14,10 @@ def home():
 def chat():
     data = request.get_json()
     message = data.get('message', '').lower()
-    language = data.get('language', 'english').lower()
-
-    lang_map = {"english": "en", "french": "fr"}
-    lang_code = lang_map.get(language, "en")
+    lang_code = data.get('language', 'en').lower()  # 'en' or 'fr'
 
     for item in knowledge_base:
         question = item.get(f"question_{lang_code}", '').lower()
-        # Use equality or improved matching logic
         if message == question:
             return jsonify({'response': item.get(f"answer_{lang_code}", "Sorry, I didn't get that.")})
 
@@ -29,4 +25,3 @@ def chat():
 
 if __name__ == '__main__':
     app.run(debug=True)
-    
