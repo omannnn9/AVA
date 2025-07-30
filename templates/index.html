@@ -8,7 +8,7 @@
   <link rel="icon" href="/static/ava.png" type="image/png" />
 </head>
 <body>
-  <div class="chat-container">
+  <div id="chat-container"> <!-- Fixed: use id not class -->
     <header class="chat-header">
       <img src="/static/ava.png" alt="AVA" class="ava-pic" />
       <div>
@@ -18,21 +18,23 @@
       <button class="help-button" onclick="toggleHelp()">❓</button>
     </header>
 
-    <main id="chat-box" class="chat-box"></main>
+    <div id="chat-messages"></div> <!-- Fixed: was <main id="chat-box"> -->
 
-    <div class="input-container">
-      <input id="user-input" type="text" placeholder="Type a message..." onkeydown="handleKeyPress(event)" />
-      <button onclick="sendMessage()">Send</button>
+    <div id="typing-indicator" style="display: none;">AVA is typing...</div> <!-- Fixed: added typing indicator -->
+
+    <div id="input-container">
+      <input id="user-input" type="text" placeholder="Type a message..." />
+      <button id="send-button" onclick="sendMessage()">Send</button> <!-- Fixed: added id="send-button" -->
     </div>
 
     <div class="language-selector">
-      <span id="en" onclick="setLanguage('en')" class="lang-flag">🇬🇧</span>
-      <span id="fr" onclick="setLanguage('fr')" class="lang-flag">🇫🇷</span>
+      <span id="en" class="lang-flag">🇬🇧</span>
+      <span id="fr" class="lang-flag">🇫🇷</span>
     </div>
   </div>
 
   <!-- Help Screen -->
-  <div id="help-screen" class="help-screen hidden">
+  <div id="help-screen" class="help-screen">
     <div class="help-content">
       <h2>What You Can Ask AVA</h2>
       <ul>
