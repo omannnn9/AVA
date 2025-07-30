@@ -1,93 +1,102 @@
-let currentLanguage = 'english';
+const chatBox = document.getElementById('chat-box');
+const userInput = document.getElementById('user-input');
+const sendBtn = document.getElementById('send-button');
+const langFlags = document.querySelectorAll('.language-selector img');
+const typingIndicator = document.getElementById('typing-indicator');
+const helpScreen = document.getElementById('help-screen');
 
-function sendMessage() {
-  const input = document.getElementById("user-input");
-  const message = input.value.trim();
-  if (!message) return;
+let currentLanguage = 'en';
 
-  addUserMessage(message);
-  input.value = "";
-
-  showTyping();
-
-  fetch("/chat", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ message, language: currentLanguage })
-  })
-  .then(response => response.json())
-  .then(data => {
-    hideTyping();
-    addAvaMessage(data.response); // FIXED from data.reply to data.response
-  })
-  .catch(error => {
-    hideTyping();
-    addAvaMessage("Oops, something went wrong. Please try again.");
-    console.error("Error:", error);
+// Language switcher
+langFlags.forEach(flag => {
+  flag.addEventListener('click', () => {
+    langFlags.forEach(f => f.classList.remove('selected'));
+    flag.classList.add('selected');
+    currentLanguage = flag.id;
   });
-}
+});
 
-function addUserMessage(message) {
-  const chatBox = document.getElementById("chat-box");
-
-  const messageRow = document.createElement("div");
-  messageRow.className = "message-row user";
-
-  const bubble = document.createElement("div");
-  bubble.className = "message-bubble user-message";
-  bubble.textContent = message;
-
-  messageRow.appendChild(bubble);
-  chatBox.appendChild(messageRow);
-
-  scrollToBottom();
-}
-
-function addAvaMessage(message) {
-  const chatBox = document.getElementById("chat-box");
-
-  const messageRow = document.createElement("div");
-  messageRow.className = "message-row ava";
-
-  const avatar = document.createElement("img");
-  avatar.className = "message-avatar";
-  avatar.src = "/static/ava.png";
-
-  const bubble = document.createElement("div");
-  bubble.className = "message-bubble ava-message";
-  bubble.textContent = message;
-
-  messageRow.appendChild(avatar);
-  messageRow.appendChild(bubble);
-  chatBox.appendChild(messageRow);
-
-  scrollToBottom();
-}
-
-function scrollToBottom() {
-  const chatBox = document.getElementById("chat-box");
+// Append user message (right side)
+function appendUserMessage(text) {
+  const msg = document.createElement('div');
+  msg.classList.add('message', 'user-message');
+  msg.textContent = text;
+  chatBox.appendChild(msg);
   chatBox.scrollTop = chatBox.scrollHeight;
 }
 
+// Append AVA message (left side with avatar)
+function appendAvaMessage(text) {
+  const msg = document.createElement('div');
+  msg.classList.add('message', 'bot-message');
+
+  const avatar = document.createElement('img');
+  avatar.src = '/static/ava.png';
+  avatar.alt = 'AVA';
+
+  msg.appendChild(avatar);
+  const bubble = document.createElement('span');
+  bubble.textContent = text;
+  msg.appendChild(bubble);
+
+  chatBox.appendChild(msg);
+  chatBox.scrollTop = chatBox.scrollHeight;
+}
+
+// Show typing animation
 function showTyping() {
-  const typingIndicator = document.getElementById("typing-indicator");
-  if (typingIndicator) typingIndicator.classList.remove("hidden");
+  typingIndicator.style.display = 'block';
+  chatBox.scrollTop = chatBox.scrollHeight;
 }
 
+// Hide typing animation
 function hideTyping() {
-  const typingIndicator = document.getElementById("typing-indicator");
-  if (typingIndicator) typingIndicator.classList.add("hidden");
+  typingIndicator.style.display = 'none';
 }
 
-function setLanguage(lang) {
-  currentLanguage = lang;
+// Send message to backend
+async function sendMessage() {
+  const text = userInput.value.trim();
+  if (!text) return;
 
-  // Update selected button style
-  const langButtons = document.querySelectorAll(".lang-btn");
-  langButtons.forEach(btn => {
-    btn.classList.remove("selected");
-    if (btn.getAttribute("data-lang") === lang) {
-      btn.classList.add("selected");
-    }
-  });
+  appendUserMessage(text);
+  userInput.value = '';
+  showTyping();
+
+  try {
+    const response = await fetch('/chat', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({message: text, language: currentLanguage})
+    });
+    const data = await response.json();
+    hideTyping();
+    appendAvaMessage(data.response);
+  } catch (err) {
+    hideTyping();
+    appendAvaMessage("Sorry, I'm having trouble connecting.");
+  }
 }
+
+// Send on button click
+sendBtn.addEventListener('click', sendMessage);
+
+// Send on Enter key
+userInput.addEventListener('keydown', (e) => {
+  if (e.key === 'Enter') {
+    e.preventDefault();
+    sendMessage();
+  }
+});
+
+// Toggle Help Screen
+function toggleHelp() {
+  if (helpScreen.style.display === 'block') {
+    helpScreen.style.display = 'none';
+  } else {
+    helpScreen.style.display = 'block';
+  }
+}
+
+// Attach toggleHelp to help button
+document.querySelector('.help-button').addEventListener('click', toggleHelp);
