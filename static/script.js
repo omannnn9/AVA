@@ -8,8 +8,8 @@ function sendMessage() {
   addUserMessage(message);
   input.value = "";
 
-  // Show typing
-  document.getElementById("typing-indicator").style.display = "block";
+  // Show typing indicator
+  document.getElementById("typing-indicator").classList.remove("hidden");
 
   fetch("/chat", {
     method: "POST",
@@ -18,7 +18,7 @@ function sendMessage() {
   })
   .then(response => response.json())
   .then(data => {
-    document.getElementById("typing-indicator").style.display = "none";
+    document.getElementById("typing-indicator").classList.add("hidden");
     addAvaMessage(data.reply);
   });
 }
