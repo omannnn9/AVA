@@ -1,0 +1,72 @@
+[
+  {
+    "category": "travel_plan",
+    "question_en": "Plan a 3-day trip to Mauritius",
+    "answer_en": "Here’s a 3-day plan:\nDay 1: Relax at Trou aux Biches, sunset at Mont Choisy.\nDay 2: Explore Black River Gorges and Chamarel.\nDay 3: Visit Port Louis market and Caudan Waterfront.",
+    "question_fr": "Planifie un voyage de 3 jours à Maurice",
+    "answer_fr": "Voici un plan de 3 jours :\nJour 1 : Détente à Trou aux Biches, coucher de soleil à Mont Choisy.\nJour 2 : Randonnée dans les gorges de la Rivière Noire et visite de Chamarel.\nJour 3 : Marché de Port Louis et Caudan Waterfront."
+  },
+  {
+    "category": "hidden_gems",
+    "question_en": "What are some hidden beaches in Mauritius?",
+    "answer_en": "Try La Cambuse, Poste Lafayette, or Gris-Gris for quiet, less touristy beaches.",
+    "question_fr": "Quelles sont les plages cachées à Maurice ?",
+    "answer_fr": "Essaie La Cambuse, Poste Lafayette ou Gris-Gris pour des plages calmes et peu touristiques."
+  },
+  {
+    "category": "bus_metro",
+    "question_en": "How to travel by bus in Mauritius?",
+    "answer_en": "Buses are cheap and widely available. Download the MoTransport app or check at bus stations for schedules.",
+    "question_fr": "Comment voyager en bus à Maurice ?",
+    "answer_fr": "Les bus sont abordables et fréquents. Télécharge l'application MoTransport ou demande les horaires aux gares routières."
+  },
+  {
+    "category": "budget_tips",
+    "question_en": "How to enjoy Mauritius on a budget?",
+    "answer_en": "Use public transport, eat at local snack shops, and explore free beaches and nature parks.",
+    "question_fr": "Comment profiter de Maurice avec un petit budget ?",
+    "answer_fr": "Utilise les transports publics, mange dans des snacks locaux, explore les plages et parcs naturels gratuits."
+  },
+  {
+    "category": "local_food",
+    "question_en": "What are some must-try local foods?",
+    "answer_en": "Try dholl puri, roti, boulettes, gateau piment, and mine frit. Don’t forget Alouda!",
+    "question_fr": "Quels plats locaux faut-il absolument goûter ?",
+    "answer_fr": "Goûte au dholl puri, roti, boulettes, gâteau piment et mine frit. N'oublie pas l'Alouda !"
+  },
+  {
+    "category": "weather_safety",
+    "question_en": "When is cyclone season in Mauritius?",
+    "answer_en": "Cyclone season usually runs from November to April. Always check local alerts.",
+    "question_fr": "Quand est la saison des cyclones à Maurice ?",
+    "answer_fr": "La saison des cyclones est généralement de novembre à avril. Vérifie toujours les alertes locales."
+  },
+  {
+    "category": "romantic_spots",
+    "question_en": "Romantic things to do in Mauritius?",
+    "answer_en": "Sunset at Le Morne, dinner on the beach, or a catamaran cruise to Île aux Cerfs.",
+    "question_fr": "Activités romantiques à faire à Maurice ?",
+    "answer_fr": "Coucher de soleil à Le Morne, dîner sur la plage ou croisière en catamaran vers l’Île aux Cerfs."
+  },
+  {
+    "category": "photo_spots",
+    "question_en": "Best photo spots in Mauritius?",
+    "answer_en": "Check out Chamarel’s Seven Colored Earth, Cap Malheureux church, and Macondé viewpoint.",
+    "question_fr": "Meilleurs endroits pour les photos à Maurice ?",
+    "answer_fr": "Visite la Terre des 7 Couleurs à Chamarel, l'église de Cap Malheureux, et le point de vue de Macondé."
+  },
+  {
+    "category": "creole_slang",
+    "question_en": "How do you say hello in Mauritian Creole?",
+    "answer_en": "You can say 'Bonzur!' – it means hello in Creole.",
+    "question_fr": "Comment dire bonjour en créole mauricien ?",
+    "answer_fr": "Tu peux dire 'Bonzur !' – cela veut dire bonjour en créole."
+  },
+  {
+    "category": "transport_help",
+    "question_en": "Is there a metro in Mauritius?",
+    "answer_en": "Yes! The Metro Express runs from Curepipe to Port Louis. It's clean, fast, and scenic.",
+    "question_fr": "Y a-t-il un métro à Maurice ?",
+    "answer_fr": "Oui ! Le Metro Express relie Curepipe à Port Louis. C’est propre, rapide et agréable."
+  }
+]
