@@ -17,8 +17,9 @@ def chat():
     language = data.get('language', 'english')
 
     for item in knowledge_base:
-        if message in item.get('question', '').lower():
-            return jsonify({'response': item.get('answer_' + language, "Sorry, I didn't get that.")})
+        question = item.get(f"question_{language[:2]}", '').lower()
+        if message in question:
+            return jsonify({'response': item.get(f"answer_{language[:2]}", "Sorry, I didn't get that.")})
 
     return jsonify({'response': "Hmm... I'm not sure how to answer that yet. Try asking something else!"})
 
