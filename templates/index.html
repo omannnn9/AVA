@@ -1,34 +1,48 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>AVA – Your Local AI Mauritius Guide</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AVA - Your Mauritius AI Guide</title>
+  <link rel="stylesheet" href="/static/style.css">
+  <script defer src="/static/script.js"></script>
 </head>
+
 <body>
-  <div class="language-selector">
-    <button class="lang-btn selected" data-lang="english" onclick="setLanguage('english')">🇬🇧</button>
-    <button class="lang-btn" data-lang="french" onclick="setLanguage('french')">🇫🇷</button>
+  <div class="chat-container">
+    <header class="chat-header">
+      <img src="/static/ava_profile.png" alt="AVA" class="ava-pic">
+      <h1>AVA <span class="subtitle">Your Local Mauritius AI Guide 🇲🇺</span></h1>
+      <button id="help-btn">❓</button>
+    </header>
+
+    <main id="chat-box"></main>
+
+    <div class="language-selector">
+      <span id="en" class="lang-flag">🇬🇧</span>
+      <span id="fr" class="lang-flag">🇫🇷</span>
+    </div>
+
+    <div class="input-area">
+      <input type="text" id="user-input" placeholder="Type a message...">
+      <button id="send-btn">➤</button>
+    </div>
+
+    <div id="typing-indicator" class="hidden">AVA is typing<span class="dots"></span></div>
   </div>
 
-  <div class="chat-wrapper">
-    <div class="chat-header">
-      <img src="{{ url_for('static', filename='ava.png') }}" class="avatar-header">
-      <h1>AVA – Mauritius AI Guide</h1>
+  <div id="ask-screen" class="hidden">
+    <h2>What You Can Ask AVA</h2>
+    <div class="bubble-container">
+      <div class="category">🏖️ Tourist Spots</div>
+      <div class="category">🍲 Mauritian Food</div>
+      <div class="category">🚎 Transport</div>
+      <div class="category">🏨 Hotels</div>
+      <div class="category">🌐 Travel Tips</div>
     </div>
-    <div class="chat-box" id="chat-box"></div>
-    <div id="typing-indicator" class="typing-indicator hidden">
-      <div class="typing">
-        <span></span><span></span><span></span>
-      </div>
-    </div>
-    <div class="chat-input-area">
-      <input type="text" id="user-input" placeholder="Type your message..." />
-      <button onclick="sendMessage()">Send</button>
-    </div>
+    <button id="close-help">Close</button>
   </div>
-
-  <script src="{{ url_for('static', filename='script.js') }}"></script>
 </body>
+
 </html>
