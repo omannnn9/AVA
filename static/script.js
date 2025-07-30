@@ -1,8 +1,8 @@
-const chatBox = document.getElementById('chat-box');
+const chatBox = document.getElementById('chat-messages');
 const userInput = document.getElementById('user-input');
 const sendBtn = document.getElementById('send-button');
-const langFlags = document.querySelectorAll('.language-selector img');
 const typingIndicator = document.getElementById('typing-indicator');
+const langFlags = document.querySelectorAll('.language-selector span'); // Fixed: changed to span
 const helpScreen = document.getElementById('help-screen');
 
 let currentLanguage = 'en';
@@ -97,6 +97,3 @@ function toggleHelp() {
     helpScreen.style.display = 'block';
   }
 }
-
-// Attach toggleHelp to help button
-document.querySelector('.help-button').addEventListener('click', toggleHelp);
