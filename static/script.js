@@ -1,4 +1,4 @@
-let currentLanguage = 'en';
+let currentLanguage = 'english';
 
 function sendMessage() {
   const input = document.getElementById("user-input");
@@ -8,8 +8,7 @@ function sendMessage() {
   addUserMessage(message);
   input.value = "";
 
-  // Show typing indicator
-  document.getElementById("typing-indicator").classList.remove("hidden");
+  showTyping();
 
   fetch("/chat", {
     method: "POST",
@@ -18,8 +17,13 @@ function sendMessage() {
   })
   .then(response => response.json())
   .then(data => {
-    document.getElementById("typing-indicator").classList.add("hidden");
-    addAvaMessage(data.reply);
+    hideTyping();
+    addAvaMessage(data.response); // FIXED from data.reply to data.response
+  })
+  .catch(error => {
+    hideTyping();
+    addAvaMessage("Oops, something went wrong. Please try again.");
+    console.error("Error:", error);
   });
 }
 
@@ -65,6 +69,25 @@ function scrollToBottom() {
   chatBox.scrollTop = chatBox.scrollHeight;
 }
 
+function showTyping() {
+  const typingIndicator = document.getElementById("typing-indicator");
+  if (typingIndicator) typingIndicator.classList.remove("hidden");
+}
+
+function hideTyping() {
+  const typingIndicator = document.getElementById("typing-indicator");
+  if (typingIndicator) typingIndicator.classList.add("hidden");
+}
+
 function setLanguage(lang) {
   currentLanguage = lang;
+
+  // Update selected button style
+  const langButtons = document.querySelectorAll(".lang-btn");
+  langButtons.forEach(btn => {
+    btn.classList.remove("selected");
+    if (btn.getAttribute("data-lang") === lang) {
+      btn.classList.add("selected");
+    }
+  });
 }
