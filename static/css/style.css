@@ -47,22 +47,8 @@ body {
   gap: 12px;
 }
 
-.ava-message, .user-message {
-  padding: 10px 14px;
-  border-radius: 20px;
-  max-width: 75%;
-  font-size: 0.95rem;
-}
-
-.ava-message {
-  background-color: #009CA6;
-  color: white;
-  align-self: flex-start;
-}
-
-.user-message {
-  background-color: #b3f0e6;
-  align-self: flex-end;
+.typing-indicator {
+  margin-top: 8px;
 }
 
 .chat-input {
@@ -100,4 +86,45 @@ body {
   padding: 6px 12px;
   cursor: pointer;
   font-size: 14px;
+}
+
+/* Messages */
+
+.message-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.message-row.ava {
+  justify-content: flex-start;
+}
+
+.message-row.user {
+  justify-content: flex-end;
+  flex-direction: row-reverse;
+}
+
+.message-avatar {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  margin-top: 2px;
+}
+
+.message-bubble {
+  padding: 10px 14px;
+  border-radius: 20px;
+  font-size: 0.95rem;
+  max-width: 75%;
+  word-wrap: break-word;
+}
+
+.ava-message {
+  background-color: #009CA6;
+  color: white;
+}
+
+.user-message {
+  background-color: #b3f0e6;
 }
