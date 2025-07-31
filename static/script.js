@@ -2,7 +2,7 @@ const chatBox = document.getElementById('chat-messages');
 const userInput = document.getElementById('user-input');
 const sendBtn = document.getElementById('send-button');
 const typingIndicator = document.getElementById('typing-indicator');
-const langFlags = document.querySelectorAll('.language-selector span'); // Fixed: changed to span
+const langFlags = document.querySelectorAll('.language-selector span');
 const helpScreen = document.getElementById('help-screen');
 
 let currentLanguage = 'en';
@@ -16,7 +16,6 @@ langFlags.forEach(flag => {
   });
 });
 
-// Append user message (right side)
 function appendUserMessage(text) {
   const msg = document.createElement('div');
   msg.classList.add('message', 'user-message');
@@ -25,7 +24,6 @@ function appendUserMessage(text) {
   chatBox.scrollTop = chatBox.scrollHeight;
 }
 
-// Append AVA message (left side with avatar)
 function appendAvaMessage(text) {
   const msg = document.createElement('div');
   msg.classList.add('message', 'bot-message');
@@ -43,18 +41,15 @@ function appendAvaMessage(text) {
   chatBox.scrollTop = chatBox.scrollHeight;
 }
 
-// Show typing animation
 function showTyping() {
   typingIndicator.style.display = 'block';
   chatBox.scrollTop = chatBox.scrollHeight;
 }
 
-// Hide typing animation
 function hideTyping() {
   typingIndicator.style.display = 'none';
 }
 
-// Send message to backend
 async function sendMessage() {
   const text = userInput.value.trim();
   if (!text) return;
@@ -78,10 +73,7 @@ async function sendMessage() {
   }
 }
 
-// Send on button click
 sendBtn.addEventListener('click', sendMessage);
-
-// Send on Enter key
 userInput.addEventListener('keydown', (e) => {
   if (e.key === 'Enter') {
     e.preventDefault();
@@ -89,11 +81,6 @@ userInput.addEventListener('keydown', (e) => {
   }
 });
 
-// Toggle Help Screen
 function toggleHelp() {
-  if (helpScreen.style.display === 'block') {
-    helpScreen.style.display = 'none';
-  } else {
-    helpScreen.style.display = 'block';
-  }
+  helpScreen.style.display = (helpScreen.style.display === 'block') ? 'none' : 'block';
 }
