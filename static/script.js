@@ -1,66 +1,43 @@
-const chatBox = document.getElementById('chat-box');
-const userInput = document.getElementById('user-input');
-const languageSelector = document.getElementById('language-selector');
+const chatBox = document.getElementById("chat-box");
+const userInput = document.getElementById("user-input");
+const sendBtn = document.getElementById("send-btn");
+const languageSelector = document.getElementById("language-selector");
 
-function appendMessage(sender, text) {
-    const messageDiv = document.createElement('div');
-    messageDiv.classList.add('message', sender);
-
-    const contentDiv = document.createElement('div');
-    contentDiv.classList.add('content');
-    contentDiv.innerText = text;
-
-    messageDiv.appendChild(contentDiv);
-    chatBox.appendChild(messageDiv);
-    chatBox.scrollTop = chatBox.scrollHeight;
+function appendMessage(message, sender) {
+  const msgDiv = document.createElement("div");
+  msgDiv.className = `message ${sender}`;
+  msgDiv.textContent = message;
+  chatBox.appendChild(msgDiv);
+  chatBox.scrollTop = chatBox.scrollHeight;
 }
 
-function showTypingIndicator() {
-    const typingDiv = document.createElement('div');
-    typingDiv.classList.add('message', 'ava', 'typing');
-    typingDiv.setAttribute('id', 'typing-indicator');
-    typingDiv.innerHTML = '<div class="content">AVA is typing<span class="dots"><span>.</span><span>.</span><span>.</span></span></div>';
-    chatBox.appendChild(typingDiv);
-    chatBox.scrollTop = chatBox.scrollHeight;
-}
+sendBtn.onclick = async () => {
+  const message = userInput.value.trim();
+  if (!message) return;
 
-function removeTypingIndicator() {
-    const typingDiv = document.getElementById('typing-indicator');
-    if (typingDiv) {
-        chatBox.removeChild(typingDiv);
-    }
-}
+  const language = languageSelector.value;
+  appendMessage(message, "user");
+  userInput.value = "";
 
-document.getElementById('send-btn').addEventListener('click', sendMessage);
-userInput.addEventListener('keypress', function (e) {
-    if (e.key === 'Enter') sendMessage();
+  appendMessage("Typing...", "bot");
+
+  const response = await fetch("/chat", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ message, language }),
+  });
+
+  const data = await response.json();
+
+  // Remove typing animation
+  const typingDivs = document.querySelectorAll(".bot");
+  typingDivs[typingDivs.length - 1].remove();
+
+  appendMessage(data.answer, "bot");
+};
+
+userInput.addEventListener("keypress", function (e) {
+  if (e.key === "Enter") sendBtn.click();
 });
-
-function sendMessage() {
-    const message = userInput.value.trim();
-    if (message === '') return;
-
-    appendMessage('user', message);
-    userInput.value = '';
-
-    showTypingIndicator();
-
-    fetch('/chat', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-            message: message,
-            language: languageSelector.value
-        })
-    })
-        .then(response => response.json())
-        .then(data => {
-            removeTypingIndicator();
-            appendMessage('ava', data.answer);
-        })
-        .catch(error => {
-            removeTypingIndicator();
-            appendMessage('ava', "Oops, there was a problem!");
-            console.error('Error:', error);
-        });
-}
