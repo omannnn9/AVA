@@ -3,7 +3,6 @@ import json
 
 app = Flask(__name__)
 
-# Load knowledge base
 with open('ava_knowledge_base.json', 'r', encoding='utf-8') as f:
     knowledge_base = json.load(f)
 
@@ -13,14 +12,18 @@ def home():
 
 @app.route('/chat', methods=['POST'])
 def chat():
-    user_message = request.json.get('message', '').lower()
-    language = request.json.get('language', 'english').lower()
+    data = request.get_json()
+    message = data.get('message', '').lower()
+    language = data.get('language', 'en')
 
-    for entry in knowledge_base:
-        if entry["question"].lower() in user_message and entry["language"].lower() == language:
-            return jsonify({"answer": entry["answer"]})
+    response = "Sorry, I didn't understand that."
 
-    return jsonify({"answer": "Sorry, I couldn't find an answer to that. Try asking something else!"})
+    for pair in knowledge_base.get(language, []):
+        if pair['question'].lower() in message:
+            response = pair['answer']
+            break
+
+    return jsonify({'response': response})
 
 if __name__ == '__main__':
     app.run(debug=True)
