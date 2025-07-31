@@ -1,9 +1,9 @@
 from flask import Flask, render_template, request, jsonify
 import json
-import time
 
 app = Flask(__name__)
 
+# Load knowledge base
 with open('ava_knowledge_base.json', 'r', encoding='utf-8') as f:
     knowledge_base = json.load(f)
 
@@ -15,9 +15,6 @@ def home():
 def chat():
     user_message = request.json.get('message', '').lower()
     language = request.json.get('language', 'english').lower()
-
-    # Simulate typing delay
-    time.sleep(1.5)
 
     for entry in knowledge_base:
         if entry["question"].lower() in user_message and entry["language"].lower() == language:
