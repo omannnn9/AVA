@@ -13,16 +13,10 @@ def home():
 @app.route('/chat', methods=['POST'])
 def chat():
     data = request.get_json()
-    message = data.get('message', '').lower()
+    user_message = data.get('message', '').lower()
     language = data.get('language', 'en')
 
-    response = "Sorry, I didn't understand that."
-
-    for pair in knowledge_base.get(language, []):
-        if pair['question'].lower() in message:
-            response = pair['answer']
-            break
-
+    response = knowledge_base.get(language, {}).get(user_message, "Sorry, I don’t understand that yet.")
     return jsonify({'response': response})
 
 if __name__ == '__main__':
