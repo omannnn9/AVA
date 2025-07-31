@@ -3,36 +3,34 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>AVA – Your Local AI Mauritius Guide</title>
-  <link rel="stylesheet" href="/static/style.css" />
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+  <title>AVA – Your Mauritius AI Guide</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+  <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}">
 </head>
 <body>
-  <div class="background"></div>
-
-  <div class="chat-container">
+  <div class="app-container">
     <div class="header">
-      <img src="/static/ava_profile.png" alt="AVA" class="avatar" />
-      <div class="title">AVA – Your Mauritius AI Guide 🇲🇺</div>
+      <img src="{{ url_for('static', filename='ava_profile.png') }}" alt="AVA" class="profile-img" />
+      <h1>AVA</h1>
+      <p>Your Local Mauritius AI Guide 🇲🇺</p>
+    </div>
+
+    <div class="chat-window" id="chat-window">
+      <div class="message ava">Hi! I'm AVA. 🇲🇺<br>Ask me anything about Mauritius – travel, food, buses, beaches!</div>
     </div>
 
     <div class="language-select">
-      <button id="en-btn" class="lang active">🇬🇧</button>
-      <button id="fr-btn" class="lang">🇫🇷</button>
+      <label>Select Language:</label>
+      <button id="en-btn" class="lang-btn selected">🇬🇧 English</button>
+      <button id="fr-btn" class="lang-btn">🇫🇷 French</button>
     </div>
-
-    <div class="chat-box" id="chat-box">
-      <div class="message ava">Hello! I'm AVA 👋 Ask me anything about Mauritius 🇲🇺</div>
-    </div>
-
-    <div class="typing-indicator" id="typing-indicator">AVA is typing<span>.</span><span>.</span><span>.</span></div>
 
     <div class="input-area">
-      <input type="text" id="user-input" placeholder="Type your question here..." />
+      <input type="text" id="input-box" placeholder="Type your message..." autocomplete="off" />
       <button id="send-btn">Send</button>
     </div>
   </div>
 
-  <script src="/static/script.js"></script>
+  <script src="{{ url_for('static', filename='script.js') }}"></script>
 </body>
 </html>
