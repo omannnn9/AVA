@@ -1,86 +1,53 @@
-const chatBox = document.getElementById('chat-messages');
-const userInput = document.getElementById('user-input');
-const sendBtn = document.getElementById('send-button');
-const typingIndicator = document.getElementById('typing-indicator');
-const langFlags = document.querySelectorAll('.language-selector span');
-const helpScreen = document.getElementById('help-screen');
+let currentLanguage = "en";
 
-let currentLanguage = 'en';
-
-// Language switcher
-langFlags.forEach(flag => {
-  flag.addEventListener('click', () => {
-    langFlags.forEach(f => f.classList.remove('selected'));
-    flag.classList.add('selected');
-    currentLanguage = flag.id;
-  });
+document.getElementById("send-btn").addEventListener("click", sendMessage);
+document.getElementById("user-input").addEventListener("keypress", function (e) {
+  if (e.key === "Enter") sendMessage();
 });
 
-function appendUserMessage(text) {
-  const msg = document.createElement('div');
-  msg.classList.add('message', 'user-message');
-  msg.textContent = text;
-  chatBox.appendChild(msg);
-  chatBox.scrollTop = chatBox.scrollHeight;
+document.getElementById("en-btn").addEventListener("click", () => switchLanguage("en"));
+document.getElementById("fr-btn").addEventListener("click", () => switchLanguage("fr"));
+
+function switchLanguage(lang) {
+  currentLanguage = lang;
+  document.querySelectorAll(".lang").forEach(btn => btn.classList.remove("active"));
+  document.getElementById(`${lang}-btn`).classList.add("active");
 }
 
-function appendAvaMessage(text) {
-  const msg = document.createElement('div');
-  msg.classList.add('message', 'bot-message');
+function sendMessage() {
+  const input = document.getElementById("user-input");
+  const message = input.value.trim();
+  if (!message) return;
 
-  const avatar = document.createElement('img');
-  avatar.src = '/static/ava.png';
-  avatar.alt = 'AVA';
+  appendMessage("user", message);
+  input.value = "";
 
-  msg.appendChild(avatar);
-  const bubble = document.createElement('span');
-  bubble.textContent = text;
-  msg.appendChild(bubble);
+  showTypingIndicator(true);
 
-  chatBox.appendChild(msg);
-  chatBox.scrollTop = chatBox.scrollHeight;
-}
-
-function showTyping() {
-  typingIndicator.style.display = 'block';
-  chatBox.scrollTop = chatBox.scrollHeight;
-}
-
-function hideTyping() {
-  typingIndicator.style.display = 'none';
-}
-
-async function sendMessage() {
-  const text = userInput.value.trim();
-  if (!text) return;
-
-  appendUserMessage(text);
-  userInput.value = '';
-  showTyping();
-
-  try {
-    const response = await fetch('/chat', {
-      method: 'POST',
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({message: text, language: currentLanguage})
+  fetch("/chat", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ message, language: currentLanguage }),
+  })
+    .then(res => res.json())
+    .then(data => {
+      showTypingIndicator(false);
+      appendMessage("ava", data.response);
+    })
+    .catch(() => {
+      showTypingIndicator(false);
+      appendMessage("ava", "Sorry, an error occurred.");
     });
-    const data = await response.json();
-    hideTyping();
-    appendAvaMessage(data.response);
-  } catch (err) {
-    hideTyping();
-    appendAvaMessage("Sorry, I'm having trouble connecting.");
-  }
 }
 
-sendBtn.addEventListener('click', sendMessage);
-userInput.addEventListener('keydown', (e) => {
-  if (e.key === 'Enter') {
-    e.preventDefault();
-    sendMessage();
-  }
-});
+function appendMessage(sender, text) {
+  const msg = document.createElement("div");
+  msg.className = `message ${sender}`;
+  msg.textContent = text;
+  document.getElementById("chat-box").appendChild(msg);
+  msg.scrollIntoView({ behavior: "smooth" });
+}
 
-function toggleHelp() {
-  helpScreen.style.display = (helpScreen.style.display === 'block') ? 'none' : 'block';
+function showTypingIndicator(show) {
+  document.getElementById("typing-indicator").style.display = show ? "block" : "none";
 }
