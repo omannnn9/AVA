@@ -1,84 +1,70 @@
-<!-- index.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>AVA - Your Local AI Mauritius Guide</title>
-  <link rel="stylesheet" href="/static/style.css" />
-  <link rel="icon" href="/static/ava-icon.png" type="image/png">
+  <meta charset="UTF-8">
+  <title>AVA – Mauritius AI Guide</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
-  <div class="container">
-    <div class="left-panel">
-      <img src="/static/ava.png" alt="AVA Profile" class="profile-pic" />
-      <div class="creator-story">
-        <h3>Created by Oman (19)</h3>
-        <p>Meet AVA – your smart travel companion for Mauritius, built with AI by a passionate student!</p>
-      </div>
-      <div class="language-select">
-        <button id="english-btn" class="language active">🇬🇧 English</button>
-        <button id="french-btn" class="language">🇫🇷 Français</button>
-      </div>
+  <div class="chat-container">
+    <div class="header">
+      <img src="{{ url_for('static', filename='ava.png') }}" alt="AVA" class="ava-img">
+      <h1>AVA – Your Local Mauritius Guide 🇲🇺</h1>
     </div>
-    <div class="right-panel">
-      <div class="chat-header">Chat with AVA</div>
-      <div class="chat-box" id="chat-box">
-        <div class="message ava">Bonjour! I'm AVA. Ask me anything about Mauritius 🇲🇺</div>
-      </div>
-      <div class="typing-indicator" id="typing-indicator">AVA is typing...</div>
-      <div class="input-area">
-        <input type="text" id="user-input" placeholder="Type your message...">
-        <button id="send-btn">Send</button>
-      </div>
+
+    <div class="language-selector">
+      <button id="english" class="lang-btn selected">🇬🇧 English</button>
+      <button id="french" class="lang-btn">🇫🇷 Français</button>
+    </div>
+
+    <div id="chatbox" class="chatbox">
+      <div class="ava-msg">Hi, I'm AVA! Ask me anything about Mauritius 🇲🇺</div>
+    </div>
+
+    <div class="input-area">
+      <input type="text" id="user-input" placeholder="Type your message..." autocomplete="off">
+      <button onclick="sendMessage()">Send</button>
     </div>
   </div>
 
   <script>
-    const sendBtn = document.getElementById('send-btn');
-    const userInput = document.getElementById('user-input');
-    const chatBox = document.getElementById('chat-box');
-    const typingIndicator = document.getElementById('typing-indicator');
-    const englishBtn = document.getElementById('english-btn');
-    const frenchBtn = document.getElementById('french-btn');
-    let language = 'english';
+    let currentLanguage = 'english';
 
-    function appendMessage(sender, text) {
-      const msg = document.createElement('div');
-      msg.className = `message ${sender}`;
-      msg.innerText = text;
-      chatBox.appendChild(msg);
-      chatBox.scrollTop = chatBox.scrollHeight;
-    }
+    document.querySelectorAll('.lang-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('selected'));
+        btn.classList.add('selected');
+        currentLanguage = btn.id;
+      });
+    });
 
-    sendBtn.onclick = async () => {
-      const message = userInput.value.trim();
-      if (message === '') return;
-      appendMessage('user', message);
-      userInput.value = '';
+    function sendMessage() {
+      const input = document.getElementById("user-input");
+      const message = input.value.trim();
+      if (!message) return;
 
-      typingIndicator.style.display = 'block';
-      const res = await fetch('/chat', {
+      const chatbox = document.getElementById("chatbox");
+      const userBubble = document.createElement("div");
+      userBubble.className = "user-msg";
+      userBubble.textContent = message;
+      chatbox.appendChild(userBubble);
+      input.value = "";
+
+      fetch('/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ message, language })
+        body: JSON.stringify({ message: message, language: currentLanguage })
+      })
+      .then(res => res.json())
+      .then(data => {
+        const botBubble = document.createElement("div");
+        botBubble.className = "ava-msg";
+        botBubble.textContent = data.reply;
+        chatbox.appendChild(botBubble);
+        chatbox.scrollTop = chatbox.scrollHeight;
       });
-      const data = await res.json();
-      typingIndicator.style.display = 'none';
-      appendMessage('ava', data.reply);
-    };
-
-    englishBtn.onclick = () => {
-      language = 'english';
-      englishBtn.classList.add('active');
-      frenchBtn.classList.remove('active');
-    };
-
-    frenchBtn.onclick = () => {
-      language = 'french';
-      frenchBtn.classList.add('active');
-      englishBtn.classList.remove('active');
-    };
+    }
   </script>
 </body>
 </html>
