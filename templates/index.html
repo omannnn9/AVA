@@ -1,53 +1,84 @@
+<!-- index.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>AVA – Your Local AI Mauritius Guide</title>
+  <title>AVA - Your Local AI Mauritius Guide</title>
   <link rel="stylesheet" href="/static/style.css" />
-  <link rel="icon" href="/static/ava.png" type="image/png" />
+  <link rel="icon" href="/static/ava-icon.png" type="image/png">
 </head>
 <body>
-  <div id="chat-container">
-    <header class="chat-header">
-      <img src="/static/ava.png" alt="AVA" class="ava-pic" />
-      <div>
-        <h1>AVA</h1>
-        <p>Your Local AI Mauritius Guide 🇲🇺</p>
+  <div class="container">
+    <div class="left-panel">
+      <img src="/static/ava.png" alt="AVA Profile" class="profile-pic" />
+      <div class="creator-story">
+        <h3>Created by Oman (19)</h3>
+        <p>Meet AVA – your smart travel companion for Mauritius, built with AI by a passionate student!</p>
       </div>
-      <button class="help-button" onclick="toggleHelp()">❓</button>
-    </header>
-
-    <div id="chat-messages"></div>
-
-    <div id="typing-indicator" style="display: none;">AVA is typing...</div>
-
-    <div id="input-container">
-      <input id="user-input" type="text" placeholder="Type a message..." />
-      <button id="send-button" onclick="sendMessage()">Send</button>
+      <div class="language-select">
+        <button id="english-btn" class="language active">🇬🇧 English</button>
+        <button id="french-btn" class="language">🇫🇷 Français</button>
+      </div>
     </div>
-
-    <div class="language-selector">
-      <span id="en" class="lang-flag selected">🇬🇧</span>
-      <span id="fr" class="lang-flag">🇫🇷</span>
-    </div>
-  </div>
-
-  <div id="help-screen" class="help-screen">
-    <div class="help-content">
-      <h2>What You Can Ask AVA</h2>
-      <ul>
-        <li>🏖️ Best beaches in Mauritius</li>
-        <li>🍲 Traditional Mauritian food</li>
-        <li>🚎 Metro and bus schedules</li>
-        <li>🏨 Hotel recommendations</li>
-        <li>🎟️ Festivals and cultural events</li>
-        <li>🌐 Internet access for tourists</li>
-      </ul>
-      <button onclick="toggleHelp()">Close</button>
+    <div class="right-panel">
+      <div class="chat-header">Chat with AVA</div>
+      <div class="chat-box" id="chat-box">
+        <div class="message ava">Bonjour! I'm AVA. Ask me anything about Mauritius 🇲🇺</div>
+      </div>
+      <div class="typing-indicator" id="typing-indicator">AVA is typing...</div>
+      <div class="input-area">
+        <input type="text" id="user-input" placeholder="Type your message...">
+        <button id="send-btn">Send</button>
+      </div>
     </div>
   </div>
 
-  <script src="/static/script.js"></script>
+  <script>
+    const sendBtn = document.getElementById('send-btn');
+    const userInput = document.getElementById('user-input');
+    const chatBox = document.getElementById('chat-box');
+    const typingIndicator = document.getElementById('typing-indicator');
+    const englishBtn = document.getElementById('english-btn');
+    const frenchBtn = document.getElementById('french-btn');
+    let language = 'english';
+
+    function appendMessage(sender, text) {
+      const msg = document.createElement('div');
+      msg.className = `message ${sender}`;
+      msg.innerText = text;
+      chatBox.appendChild(msg);
+      chatBox.scrollTop = chatBox.scrollHeight;
+    }
+
+    sendBtn.onclick = async () => {
+      const message = userInput.value.trim();
+      if (message === '') return;
+      appendMessage('user', message);
+      userInput.value = '';
+
+      typingIndicator.style.display = 'block';
+      const res = await fetch('/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message, language })
+      });
+      const data = await res.json();
+      typingIndicator.style.display = 'none';
+      appendMessage('ava', data.reply);
+    };
+
+    englishBtn.onclick = () => {
+      language = 'english';
+      englishBtn.classList.add('active');
+      frenchBtn.classList.remove('active');
+    };
+
+    frenchBtn.onclick = () => {
+      language = 'french';
+      frenchBtn.classList.add('active');
+      englishBtn.classList.remove('active');
+    };
+  </script>
 </body>
 </html>
