@@ -1,6 +1,3 @@
-/* style.css - AVA WhatsApp Style Redesign */
-
-/* Reset + global styles */
 body, html {
   margin: 0;
   padding: 0;
@@ -70,7 +67,7 @@ body, html {
   border-top: 1px solid #ccc;
 }
 
-#message-input {
+#user-input {
   flex: 1;
   padding: 10px;
   font-size: 16px;
@@ -98,18 +95,17 @@ body, html {
   margin-top: 5px;
 }
 
-.language-selector img {
-  width: 30px;
-  height: 30px;
+.lang-flag {
+  font-size: 24px;
   margin: 0 10px;
   cursor: pointer;
   border-radius: 50%;
-  border: 3px solid transparent;
+  padding: 5px;
   transition: border 0.3s ease;
 }
 
-.language-selector img.selected {
-  border-color: #ff4d4d;
+.lang-flag.selected {
+  border: 3px solid #ff4d4d;
 }
 
 #typing-indicator {
@@ -138,23 +134,24 @@ body, html {
   color: #003366;
 }
 
-.help-category {
-  background: #ffefc2;
-  padding: 10px;
-  margin-bottom: 10px;
-  border-radius: 12px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+.help-content ul {
+  list-style: none;
+  padding-left: 0;
 }
 
-#close-help {
+.help-content li {
+  margin: 8px 0;
+}
+
+.help-content button {
   background: #ff4d4d;
   color: white;
   border: none;
   padding: 8px 12px;
   border-radius: 10px;
   cursor: pointer;
-  float: right;
-  margin-bottom: 10px;
+  display: block;
+  margin: 20px auto 0;
 }
 
 @media (max-width: 768px) {
@@ -170,10 +167,4 @@ body, html {
   #send-button {
     font-size: 14px;
   }
-}
-
-/* Highlight selected flag */
-.lang-flag.selected {
-  border: 3px solid #ff4d4d;
-  border-radius: 50%;
 }
