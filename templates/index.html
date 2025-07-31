@@ -1,158 +1,41 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AVA - Your Mauritius Guide</title>
-    <link rel="stylesheet" href="/static/styles.css">
-    <link rel="icon" type="image/png" href="/static/ava_profile.png">
-    <style>
-        body {
-            margin: 0;
-            padding: 0;
-            background-image: url('/static/mauritius_bg.jpg');
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: flex-start;
-            min-height: 100vh;
-        }
-
-        .chat-container {
-            background: rgba(255, 255, 255, 0.9);
-            border-radius: 20px;
-            width: 90%;
-            max-width: 500px;
-            margin-top: 20px;
-            padding: 20px;
-            box-shadow: 0 0 20px rgba(0,0,0,0.2);
-            display: flex;
-            flex-direction: column;
-            position: relative;
-        }
-
-        .ava-profile {
-            display: flex;
-            align-items: center;
-            margin-bottom: 15px;
-        }
-
-        .ava-profile img {
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            margin-right: 15px;
-        }
-
-        .ava-profile span {
-            font-size: 1.2em;
-            font-weight: bold;
-            color: #00695c;
-        }
-
-        .chat-box {
-            flex-grow: 1;
-            overflow-y: auto;
-            max-height: 400px;
-            margin-bottom: 10px;
-        }
-
-        .message {
-            margin: 10px 0;
-            padding: 10px 15px;
-            border-radius: 15px;
-            max-width: 80%;
-            word-wrap: break-word;
-        }
-
-        .user {
-            background-color: #e0f7fa;
-            align-self: flex-end;
-        }
-
-        .bot {
-            background-color: #b2dfdb;
-            align-self: flex-start;
-        }
-
-        .input-container {
-            display: flex;
-            gap: 10px;
-            align-items: center;
-        }
-
-        #user-input {
-            flex-grow: 1;
-            padding: 10px;
-            border-radius: 20px;
-            border: 1px solid #ccc;
-        }
-
-        #send-btn {
-            background-color: #009688;
-            color: white;
-            padding: 10px 18px;
-            border: none;
-            border-radius: 50px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-
-        #send-btn:hover {
-            background-color: #00796b;
-        }
-
-        .language-select {
-            margin-top: 20px;
-            text-align: center;
-        }
-
-        .language-select label {
-            margin-right: 10px;
-            font-weight: bold;
-            color: #004d40;
-        }
-
-        @media screen and (max-width: 600px) {
-            .chat-container {
-                width: 95%;
-                padding: 15px;
-            }
-
-            .ava-profile img {
-                width: 50px;
-                height: 50px;
-            }
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AVA – Your Local Mauritius AI</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 <body>
-    <div class="chat-container">
-        <div class="ava-profile">
-            <img src="/static/ava_profile.png" alt="AVA Profile">
-            <span>AVA - Your Mauritius Guide</span>
-        </div>
+  <div class="background"></div>
 
-        <div class="chat-box" id="chat-box"></div>
-
-        <div class="input-container">
-            <input type="text" id="user-input" placeholder="Ask something...">
-            <button id="send-btn">Send</button>
-        </div>
+  <div class="chat-container">
+    <div class="chat-header">
+      <img src="{{ url_for('static', filename='ava_profile.png') }}" alt="AVA" class="avatar">
+      <h2>AVA – Your Local Mauritius AI 🇲🇺</h2>
     </div>
 
-    <div class="language-select">
-        <label for="language">Select Language:</label>
-        <select id="language">
-            <option value="en">🇬🇧 English</option>
-            <option value="fr">🇫🇷 French</option>
-        </select>
+    <div class="chat-box" id="chat-box">
+      <div class="chat-message ava">Hi! I’m AVA. Ask me anything about Mauritius 🇲🇺</div>
     </div>
 
-    <script src="/static/script.js"></script>
+    <div class="chat-input-area">
+      <input type="text" id="user-input" placeholder="Type your message here...">
+      <button id="send-button">Send</button>
+    </div>
+
+    <div class="language-selector">
+      <label>
+        <input type="radio" name="language" value="en" checked>
+        English
+      </label>
+      <label>
+        <input type="radio" name="language" value="fr">
+        Français
+      </label>
+    </div>
+  </div>
+
+  <script src="{{ url_for('static', filename='script.js') }}"></script>
 </body>
 </html>
