@@ -3,7 +3,7 @@ import json
 
 app = Flask(__name__)
 
-# Load the bilingual knowledge base
+# Load knowledge base
 with open('ava_knowledge_base.json', 'r', encoding='utf-8') as f:
     knowledge_base = json.load(f)
 
@@ -13,21 +13,15 @@ def home():
 
 @app.route('/chat', methods=['POST'])
 def chat():
-    data = request.get_json()
-    user_message = data.get('message', '').lower()
-    language = data.get('language', 'en')
+    user_message = request.json.get('message', '').lower()
+    language = request.json.get('language', 'english').lower()
 
-    # Match user's message with knowledge base
-    for item in knowledge_base:
-        if user_message in item['question'].lower():
-            return jsonify({'answer': item['answer_' + language]})
+    # Search in the correct language
+    for entry in knowledge_base:
+        if entry["question"].lower() in user_message and entry["language"].lower() == language:
+            return jsonify({"answer": entry["answer"]})
 
-    # Default fallback response
-    fallback = {
-        'en': "Sorry, I didn't understand that. Try asking something else about Mauritius 🇲🇺",
-        'fr': "Désolé, je n'ai pas compris. Essayez de demander autre chose sur l'île Maurice 🇲🇺"
-    }
-    return jsonify({'answer': fallback[language]})
+    return jsonify({"answer": "Sorry, I couldn't find an answer to that. Try asking something else!"})
 
 if __name__ == '__main__':
     app.run(debug=True)
