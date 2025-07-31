@@ -3,34 +3,36 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>AVA – Your Mauritius AI Guide</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
-  <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}">
+  <title>AVA – Your Local Mauritius AI Guide</title>
+  <link rel="stylesheet" href="/static/styles.css" />
+  <link rel="icon" type="image/png" href="/static/favicon.ico" />
 </head>
 <body>
   <div class="app-container">
     <div class="header">
-      <img src="{{ url_for('static', filename='ava_profile.png') }}" alt="AVA" class="profile-img" />
-      <h1>AVA</h1>
-      <p>Your Local Mauritius AI Guide 🇲🇺</p>
+      <img src="/static/ava_profile.png" alt="AVA Profile" class="ava-profile" />
+      <div class="ava-info">
+        <h1>AVA</h1>
+        <p>Your Local Mauritius AI Guide 🇲🇺</p>
+      </div>
     </div>
 
-    <div class="chat-window" id="chat-window">
-      <div class="message ava">Hi! I'm AVA. 🇲🇺<br>Ask me anything about Mauritius – travel, food, buses, beaches!</div>
+    <div class="chat-container" id="chat-container">
+      <!-- Messages will appear here -->
     </div>
 
+    <div class="chat-input-container">
+      <input type="text" id="user-input" placeholder="Type a message..." />
+      <button id="send-btn">➤</button>
+    </div>
+
+    <!-- Language selector moved below the whole box -->
     <div class="language-select">
-      <label>Select Language:</label>
-      <button id="en-btn" class="lang-btn selected">🇬🇧 English</button>
-      <button id="fr-btn" class="lang-btn">🇫🇷 French</button>
-    </div>
-
-    <div class="input-area">
-      <input type="text" id="input-box" placeholder="Type your message..." autocomplete="off" />
-      <button id="send-btn">Send</button>
+      <span class="language-option selected" data-lang="english">🇬🇧</span>
+      <span class="language-option" data-lang="french">🇫🇷</span>
     </div>
   </div>
 
-  <script src="{{ url_for('static', filename='script.js') }}"></script>
+  <script src="/static/script.js"></script>
 </body>
 </html>
