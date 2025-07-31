@@ -13,16 +13,14 @@ def home():
 @app.route('/chat', methods=['POST'])
 def chat():
     data = request.get_json()
-    message = data.get('message', '').lower()
-    language = data.get('language', 'english')
+    user_message = data.get('message', '').lower()
+    language = data.get('language', 'en')
 
-    responses = knowledge_base.get(language, [])
-    reply = "Sorry, I don’t understand. Try asking something else."
-    for item in responses:
-        if item['question'].lower() in message:
-            reply = item['answer']
-            break
-    return jsonify({'reply': reply})
+    for qa in knowledge_base:
+        if user_message in qa.get('questions', []):
+            return jsonify({'response': qa.get('answers', {}).get(language, 'Sorry, I can’t answer that yet.')})
+
+    return jsonify({'response': "I'm not sure, but I'm learning more every day! 🌴"})
 
 if __name__ == '__main__':
     app.run(debug=True)
