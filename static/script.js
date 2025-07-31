@@ -1,43 +1,54 @@
-const chatBox = document.getElementById("chat-box");
-const userInput = document.getElementById("user-input");
-const sendBtn = document.getElementById("send-btn");
-const languageSelector = document.getElementById("language-selector");
+document.addEventListener("DOMContentLoaded", () => {
+  const inputBox = document.getElementById("input-box");
+  const sendBtn = document.getElementById("send-btn");
+  const chatWindow = document.getElementById("chat-window");
+  const enBtn = document.getElementById("en-btn");
+  const frBtn = document.getElementById("fr-btn");
 
-function appendMessage(message, sender) {
-  const msgDiv = document.createElement("div");
-  msgDiv.className = `message ${sender}`;
-  msgDiv.textContent = message;
-  chatBox.appendChild(msgDiv);
-  chatBox.scrollTop = chatBox.scrollHeight;
-}
+  let selectedLang = "en";
 
-sendBtn.onclick = async () => {
-  const message = userInput.value.trim();
-  if (!message) return;
+  enBtn.onclick = () => {
+    selectedLang = "en";
+    enBtn.classList.add("selected");
+    frBtn.classList.remove("selected");
+  };
 
-  const language = languageSelector.value;
-  appendMessage(message, "user");
-  userInput.value = "";
+  frBtn.onclick = () => {
+    selectedLang = "fr";
+    frBtn.classList.add("selected");
+    enBtn.classList.remove("selected");
+  };
 
-  appendMessage("Typing...", "bot");
+  sendBtn.onclick = async () => {
+    const message = inputBox.value.trim();
+    if (!message) return;
 
-  const response = await fetch("/chat", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ message, language }),
-  });
+    appendMessage("user", message);
+    inputBox.value = "";
 
-  const data = await response.json();
+    appendMessage("ava", "<span class='typing'>AVA is typing...</span>");
 
-  // Remove typing animation
-  const typingDivs = document.querySelectorAll(".bot");
-  typingDivs[typingDivs.length - 1].remove();
+    const res = await fetch("/chat", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ message, language: selectedLang }),
+    });
 
-  appendMessage(data.answer, "bot");
-};
+    const data = await res.json();
+    removeTyping();
+    appendMessage("ava", data.response);
+  };
 
-userInput.addEventListener("keypress", function (e) {
-  if (e.key === "Enter") sendBtn.click();
+  function appendMessage(sender, text) {
+    const msgDiv = document.createElement("div");
+    msgDiv.className = `message ${sender}`;
+    msgDiv.innerHTML = text;
+    chatWindow.appendChild(msgDiv);
+    chatWindow.scrollTop = chatWindow.scrollHeight;
+  }
+
+  function removeTyping() {
+    const typingDiv = document.querySelector(".typing");
+    if (typingDiv) typingDiv.parentElement.remove();
+  }
 });
