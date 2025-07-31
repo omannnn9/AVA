@@ -1,170 +1,102 @@
-body, html {
+body {
   margin: 0;
-  padding: 0;
-  height: 100%;
   font-family: 'Segoe UI', sans-serif;
-  background: linear-gradient(to bottom right, #ffffff, #b3e6ff);
-  overflow: hidden;
-}
-
-#chat-container {
+  background: #111;
+  color: #eee;
   display: flex;
-  flex-direction: column;
-  height: 100vh;
-  max-width: 600px;
-  margin: 0 auto;
-  box-shadow: 0 0 10px rgba(0,0,0,0.2);
-  background: #e5ddd5;
-  position: relative;
-}
-
-#chat-messages {
-  flex: 1;
-  overflow-y: auto;
-  padding: 20px;
-  background: url('/static/bg-mauritius.png') no-repeat center center;
-  background-size: cover;
-  backdrop-filter: brightness(0.9);
-}
-
-.message {
-  max-width: 75%;
-  margin: 10px 0;
-  padding: 10px 15px;
-  border-radius: 20px;
-  position: relative;
-  word-wrap: break-word;
-  line-height: 1.4;
-  font-size: 15px;
-}
-
-.user-message {
-  align-self: flex-end;
-  background-color: #dcf8c6;
-  border-bottom-right-radius: 0;
-}
-
-.bot-message {
-  align-self: flex-start;
-  background-color: #ffffff;
-  border-bottom-left-radius: 0;
-  display: flex;
+  justify-content: center;
   align-items: center;
+  min-height: 100vh;
 }
 
-.bot-message img {
-  width: 25px;
-  height: 25px;
+.chat-container {
+  width: 100%;
+  max-width: 500px;
+  background: #222;
+  border-radius: 12px;
+  box-shadow: 0 0 15px rgba(0,0,0,0.4);
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 15px;
+}
+
+.ava-img {
+  width: 80px;
   border-radius: 50%;
-  margin-right: 8px;
-}
-
-#input-container {
-  display: flex;
-  flex-direction: column;
-  padding: 10px;
-  background: #f0f0f0;
-  border-top: 1px solid #ccc;
-}
-
-#user-input {
-  flex: 1;
-  padding: 10px;
-  font-size: 16px;
-  border: none;
-  border-radius: 25px;
-  outline: none;
-  margin-bottom: 5px;
-}
-
-#send-button {
-  background-color: #25d366;
-  color: white;
-  padding: 10px 16px;
-  border: none;
-  border-radius: 50%;
-  font-size: 16px;
-  cursor: pointer;
-  align-self: flex-end;
-  margin-top: 5px;
+  border: 3px solid #f00;
 }
 
 .language-selector {
   display: flex;
   justify-content: center;
-  margin-top: 5px;
+  gap: 10px;
+  margin-bottom: 15px;
 }
 
-.lang-flag {
-  font-size: 24px;
-  margin: 0 10px;
+.lang-btn {
+  background: none;
+  border: 2px solid #555;
+  padding: 5px 10px;
+  color: #fff;
+  border-radius: 8px;
   cursor: pointer;
-  border-radius: 50%;
-  padding: 5px;
-  transition: border 0.3s ease;
+  font-size: 14px;
 }
 
-.lang-flag.selected {
-  border: 3px solid #ff4d4d;
+.lang-btn.selected {
+  border-color: #f00;
+  background: #f003;
 }
 
-#typing-indicator {
-  margin: 10px;
-  font-style: italic;
-  color: gray;
-  font-size: 13px;
-}
-
-#help-screen {
-  display: none;
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(255,255,255,0.97);
-  z-index: 1000;
+.chatbox {
+  height: 300px;
   overflow-y: auto;
-  padding: 20px;
+  background: #1a1a1a;
+  padding: 10px;
+  border-radius: 10px;
+  margin-bottom: 10px;
 }
 
-#help-screen h2 {
-  text-align: center;
-  margin-bottom: 20px;
-  color: #003366;
+.ava-msg, .user-msg {
+  margin: 5px 0;
+  padding: 10px;
+  border-radius: 10px;
+  max-width: 80%;
 }
 
-.help-content ul {
-  list-style: none;
-  padding-left: 0;
+.ava-msg {
+  background: #333;
+  align-self: flex-start;
 }
 
-.help-content li {
-  margin: 8px 0;
+.user-msg {
+  background: #e53935;
+  align-self: flex-end;
+  margin-left: auto;
 }
 
-.help-content button {
-  background: #ff4d4d;
+.input-area {
+  display: flex;
+  gap: 10px;
+}
+
+#user-input {
+  flex: 1;
+  padding: 10px;
+  border-radius: 8px;
+  border: none;
+  outline: none;
+}
+
+button {
+  padding: 10px 15px;
+  background: #e53935;
   color: white;
   border: none;
-  padding: 8px 12px;
-  border-radius: 10px;
+  border-radius: 8px;
   cursor: pointer;
-  display: block;
-  margin: 20px auto 0;
-}
-
-@media (max-width: 768px) {
-  #chat-container {
-    width: 100vw;
-    height: 100vh;
-  }
-
-  .message {
-    font-size: 14px;
-  }
-
-  #send-button {
-    font-size: 14px;
-  }
 }
