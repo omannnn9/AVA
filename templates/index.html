@@ -1,35 +1,36 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>AVA – Your Local Mauritius AI Guide</title>
-  <link rel="stylesheet" href="/static/styles.css" />
-  <link rel="icon" type="image/png" href="/static/favicon.ico" />
+  <link rel="stylesheet" href="/static/styles.css">
+  <link rel="icon" href="/static/favicon.ico">
 </head>
-<body>
-  <div class="app-container">
+<body style="background-image: url('/static/mauritius_bg.jpg'); background-size: cover; background-position: center; background-attachment: fixed;">
+  <div class="main-container">
     <div class="header">
-      <img src="/static/ava_profile.png" alt="AVA Profile" class="ava-profile" />
-      <div class="ava-info">
-        <h1>AVA</h1>
-        <p>Your Local Mauritius AI Guide 🇲🇺</p>
+      <div class="avatar">
+        <img src="/static/ava_profile.png" alt="AVA Profile">
       </div>
+      <div class="title">AVA – Mauritius AI Chat</div>
     </div>
 
-    <div class="chat-container" id="chat-container">
+    <div class="chatbox" id="chatbox">
       <!-- Messages will appear here -->
     </div>
 
-    <div class="chat-input-container">
-      <input type="text" id="user-input" placeholder="Type a message..." />
-      <button id="send-btn">➤</button>
+    <div class="language-selector">
+      <label for="language">Choose Language:</label>
+      <select id="language">
+        <option value="english" selected>🇬🇧 English</option>
+        <option value="french">🇫🇷 Français</option>
+      </select>
     </div>
 
-    <!-- Language selector moved below the whole box -->
-    <div class="language-select">
-      <span class="language-option selected" data-lang="english">🇬🇧</span>
-      <span class="language-option" data-lang="french">🇫🇷</span>
+    <div class="input-container">
+      <input type="text" id="userInput" placeholder="Ask me anything about Mauritius...">
+      <button id="sendBtn">Send</button>
     </div>
   </div>
 
